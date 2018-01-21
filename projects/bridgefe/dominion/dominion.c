@@ -947,7 +947,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	    
       
       return 0;
-		
+		//refactored great hall
     case great_hall:
             playGreatHall(currentPlayer, handPos, state);
             return 0;
@@ -1002,7 +1002,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 				
 	}
       return 0;
-		
+		//refactored steward
     case steward:
             playSteward(currentPlayer, handPos, choice1, choice2, choice3, state);
             return 0;
