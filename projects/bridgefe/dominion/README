@@ -1,0 +1,3 @@
+*/to make and run all card and unit tests and push results to unittestresults.out, type the following/*
+make all
+make myTest 
