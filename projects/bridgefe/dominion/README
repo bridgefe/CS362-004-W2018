@@ -1,3 +1,4 @@
-*/to make and run all card and unit tests and push results to unittestresults.out, type the following/*
+*/to make and run all random tests and push results to appropriate .out files, execute the following command*
+
 make all
-make myTest 
+
