@@ -1,0 +1,95 @@
+        -:    0:Source:randomtestcard1.c
+        -:    0:Graph:randomtestcard1.gcno
+        -:    0:Data:randomtestcard1.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <string.h>
+        -:    5:#include <stdlib.h>
+        -:    6:#include <stdio.h>
+        -:    7:#include <time.h>
+        -:    8:#include <math.h>
+        -:    9:
+        -:   10://These random tests were inspired and influenced by the provided example of testDrawCard.c 
+        -:   11://there will be similarities in the code. 
+        -:   12:
+        -:   13://global failure of tests tracking
+        -:   14:int cardEffectFails=0, drawCardFails=0, handCountFails=0, discardCardFails=0;
+        -:   15:
+        -:   16:// function to check the smithyCard
+     5000:   17:void checkSmithyCard(int p, struct gameState *post) {
+        -:   18:
+        -:   19:    struct gameState pre;
+        -:   20:
+     5000:   21:    memcpy(&pre,post,sizeof(struct gameState));
+     5000:   22:    int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0;
+        -:   23:
+        -:   24:    // call the card effect function with the smithy card
+     5000:   25:    if(cardEffect(smithy, choice1, choice2, choice3, post, handpos, &bonus)){
+    #####:   26:    	cardEffectFails++;
+        -:   27:    }
+        -:   28:
+        -:   29:    // call discardCard
+     5000:   30:    if(discardCard(0, p, &pre, 0)){
+    #####:   31:    	discardCardFails++;
+        -:   32:    }
+        -:   33:
+        -:   34:    // check if any drawcard failed
+     5000:   35:    if (drawCard(p,&pre) == -1 && pre.deckCount[p] != 0) {
+    #####:   36:        drawCardFails++;
+        -:   37:    }
+     5000:   38:    if (drawCard(p,&pre) == -1 && pre.deckCount[p] != 0) {
+    #####:   39:        drawCardFails++;
+        -:   40:    }
+     5000:   41:    if (drawCard(p,&pre) == -1 && pre.deckCount[p] != 0) {
+    #####:   42:        drawCardFails++;
+        -:   43:    }
+        -:   44:
+        -:   45:    // this test will fail on my dominion code because of the bug i introduced for assignment 2
+     5000:   46:    if (!(post->handCount[p] == pre.handCount[p]+2)) {
+     5000:   47:        handCountFails++;
+        -:   48:        //////////////////////////////////////////////////////////
+        -:   49:    }
+     5000:   50:}
+        -:   51:
+        1:   52:int main () {
+        1:   53:    printf("***** RANDOM TESTING OF SMITHY CARD *****\n");
+        -:   54:   
+        -:   55:    int i, n, player;
+        -:   56:    struct gameState testState;
+        1:   57:    srand(time(NULL));
+        -:   58:
+        -:   59:    // randomly initialized the game state as seen in testDrawCard.c
+     5001:   60:    for (n = 0; n < 5000; n++) {
+131505000:   61:        for (i = 0; i < sizeof(struct gameState); i++) {
+131500000:   62:            ((char*)&testState)[i] = floor(Random() * 256);
+        -:   63:        }
+        -:   64:        // randomly select appropriate values
+     5000:   65:        player = floor(Random() * MAX_PLAYERS);
+     5000:   66:        testState.deckCount[player] = floor(Random() * MAX_DECK);
+     5000:   67:        testState.discardCount[player] = floor(Random() * MAX_DECK);
+     5000:   68:        testState.handCount[player] = floor(Random() * MAX_HAND);
+     5000:   69:        testState.playedCardCount = floor(Random() * (MAX_DECK-1)); //must not forget this unless you love seg faults
+     5000:   70:        testState.whoseTurn = player;
+        -:   71:        // call the check function
+     5000:   72:        checkSmithyCard(player,&testState);
+        -:   73:    }
+        -:   74:
+        1:   75:    if(cardEffectFails ==0 && drawCardFails ==0 && handCountFails == 0 && discardCardFails ==0)
+        -:   76:    {
+    #####:   77: 		printf ("ALL TESTS OK\n");
+        -:   78: 	}
+        -:   79: 	else{
+        1:   80: 		printf("\nWHAT FAILED??\n");
+        -:   81:     
+        1:   82:        printf("drawCard() failed: %d\n",drawCardFails);
+        1:   83:        printf("cardEffect() failed: %d\n",cardEffectFails);
+        1:   84:        printf("Handcount failed: %d\n",handCountFails);
+        1:   85:        printf("discard Failed: %d\n",discardCardFails);
+        -:   86:
+        -:   87: 	}
+        -:   88:    
+        1:   89:    return 0;
+        -:   90:}
