@@ -1,0 +1,61 @@
+Bug 1: 
+Adventurer card. drawn treasure set to a value of 1. should be a value of 0 to begin.
+This causes both test cases to fail. No two treasure drawn, and no two cards drawn
+
+line 1238 in dominion.c 
+
+Testing the adventurer card
+
+test 1 ->> Treasure increase
+
+Player 1 treasure increases by 2
+Test: FAILED
+
+test 2 ->> Draw two cards
+
+Player 1 adds 2 cards to hand
+Test: FAILED
+
+
+Bug 2:
+Smithy card. Improper number number of cards in hand. should be increased by 3. this passed
+my smithy card test, but failed my random card test. Upon investication, it was 
+due to a handpos-- on line 1264 of dominion.c this starts the hand position at an 
+unexpected location. should be 0 it is discarding from the wrong position in the hand.
+Tricky to catch as it passes the tests for discard check
+***** RANDOM TESTING OF SMITHY CARD *****
+
+WHAT FAILED??
+drawCard() failed: 0
+cardEffect() failed: 0
+Handcount failed: 5000
+discard Failed: 0
+
+
+Bug 3:
+Council room card.
+Failure to draw card for player 2 and failure to draw card from own deck player 2
+
+Testing -> council_roomCard()
+
+test1 >> Player1 gains 4 cards
+Test: PASSED
+
+test2 >> Player1 gains 4 cards from his own pile
+Test: PASSED
+
+test3 >> number of buys increments
+Test: PASSED
+
+test4 >> No change to victory cards: prov, duch, estate
+Test: PASSED
+Test: PASSED
+Test: PASSED
+
+test5 >> Player2 gains a card
+Test: FAILED
+
+test6 >> Player2 gains a card from his own deck
+Test: FAILED
+
+
