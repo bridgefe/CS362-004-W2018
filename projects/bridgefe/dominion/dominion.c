@@ -699,7 +699,7 @@ void playCouncilRoom(int currentPlayer, int handPos, struct gameState *state){
 void playSmithy(int currentPlayer, int handPos, struct gameState *state){
     int i;
     //+3 Cards
-    for (i = 0; i < 1; i++)//---Bug-- Player only gets 2 cards instead of 3
+    for (i = 0; i < 3; i++)//fixed bug--- Player now gets 3 cards
     {
         drawCard(currentPlayer, state);
     }
